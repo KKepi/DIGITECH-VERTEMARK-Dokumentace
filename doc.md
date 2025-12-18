@@ -183,8 +183,7 @@ VerteMark/
 
 ### Diagram tříd (PlantUML)
 
-```plantuml
-@startuml
+```mermaid
 class Project {
     -static instance: Project
     -folderUtilityManager: FolderUtilityManager
@@ -318,7 +317,6 @@ MainWindow "1" --> "1" Project
 MainWindow "1" --> "1" StateManager
 StateManager --> AppState
 Anotace --> AnotaceType
-@enduml
 ```
 
 ### Sekvenční diagram - Workflow anotace (Mermaid)
@@ -1038,13 +1036,8 @@ dotnet build VerteMark.sln --configuration Release
 
 ## Dodatek A: Slovník
 
-- **Anotace**: Český termín pro "annotation"
 - **DICOM**: Digital Imaging and Communications in Medicine - standard pro lékařské zobrazování
 - **VMK**: Formát kontejnerového souboru VerteMark (ZIP archiv)
-- **Validátor**: Validator (česky)
-- **Anotátor**: Annotator (česky)
-- **Fúze**: Fusion (česky)
-- **Implantát**: Implant (česky)
 
 ---
 
@@ -1059,4 +1052,4 @@ dotnet build VerteMark.sln --configuration Release
 
 **Verze dokumentu**: 1.0  
 **Poslední aktualizace**: 2025-01-XX  
-**Autor**: Vygenerováno z analýzy zdrojového kódu
+**Autor**: Tým VerteMark
