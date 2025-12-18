@@ -184,137 +184,99 @@ VerteMark/
 ### Diagram tříd (PlantUML)
 
 ```mermaid
+classDiagram
+
 class Project {
-    -static instance: Project
-    -folderUtilityManager: FolderUtilityManager
-    -loggedInUser: User
-    -anotaces: List<Anotace>
-    -activeAnotace: Anotace?
-    -originalPicture: BitmapImage?
-    +GetInstance(): Project
-    +LoginNewUser(id: string, validator: bool): void
-    +SaveProject(parameter: int, button: string): void
-    +SelectActiveAnotace(id: string): Anotace
-    +GetAnotaces(): List<Anotace>
+    -instance : Project
+    -folderUtilityManager : FolderUtilityManager
+    -loggedInUser : User
+    -anotaces : List~Anotace~
+    -activeAnotace : Anotace
+    -originalPicture : BitmapImage
+    +GetInstance() Project
+    +LoginNewUser(id: string, validator: bool) void
+    +SaveProject(parameter: int, button: string) void
+    +SelectActiveAnotace(id: string) Anotace
+    +GetAnotaces() List~Anotace~
 }
 
 class StateManager {
-    -currentState: AppState
-    +StateChanged: EventHandler<AppState>
-    +CurrentState: AppState {get; set}
+    -currentState : AppState
+    +StateChanged : EventHandler~AppState~
+    +CurrentState : AppState
 }
 
-enum AppState {
+class AppState {
+    <<enumeration>>
     Drawing
     Cropping
     ReadOnly
 }
 
 class Anotace {
-    +Id: string
-    +Name: string
-    +Color: System.Drawing.Color
-    +IsValidated: bool
-    +IsAnotated: bool
-    +Type: AnotaceType
-    +Canvas: WriteableBitmap?
-    +Points: List<PointMarker>
-    +Lines: List<LineConnection>
-    +GetAsDict(): Dictionary<string, List<Tuple<int, int>>>
-    +UpdateCanvas(bitmap: WriteableBitmap): void
-    +Validate(validate: bool): void
+    +Id : string
+    +Name : string
+    +Color : Color
+    +IsValidated : bool
+    +IsAnotated : bool
+    +Type : AnotaceType
+    +Canvas : WriteableBitmap
+    +Points : List~PointMarker~
+    +Lines : List~LineConnection~
+    +GetAsDict() Dictionary
+    +UpdateCanvas(bitmap: WriteableBitmap) void
+    +Validate(validate: bool) void
 }
 
-enum AnotaceType {
+class AnotaceType {
+    <<enumeration>>
     Vertebra
     Implant
     Fusion
 }
 
 class User {
-    +UserID: string
-    +Validator: bool
+    +UserID : string
+    +Validator : bool
 }
 
 class PointMarker {
-    +Position: Point
-    +PositionChanged: Action?
-    -_cross: FrameworkElement?
-    +DrawPointMarker(canvas: Canvas): void
-    +UpdatePosition(position: Point): void
-    +Remove(canvas: Canvas): void
+    +Position : Point
+    +PositionChanged : Action
+    +DrawPointMarker(canvas: Canvas) void
+    +UpdatePosition(position: Point) void
+    +Remove(canvas: Canvas) void
 }
 
 class LineConnection {
-    -_startPoint: PointMarker
-    -_endPoint: PointMarker
-    -_line: Line
-    +Remove(canvas: Canvas): void
+    +Remove(canvas: Canvas) void
 }
 
 class FolderUtilityManager {
-    -zipManager: ZipManager
-    -fileManager: FileManager
-    -folderManager: FolderManager
-    +ExtractZip(path: string): bool
-    +Save(user: User, newProject: bool, image: BitmapImage, json: string, parameter: int, button: string): void
-    +LoadProject(path: string): string
+    +ExtractZip(path: string) bool
+    +Save(user: User, newProject: bool, image: BitmapImage, json: string, parameter: int, button: string) void
+    +LoadProject(path: string) string
 }
 
-class FileManager {
-    +outputPath: string
-    +dicomPath: string?
-    +pngPath: string?
-    +jsonPath: string?
-    +ExtractImageFromDicom(): void
-    +ExtractAndSaveMetadata(user: User): void
-    +SaveJson(json: string, user: User): void
-    +LoadBitmapImage(): BitmapImage
-}
-
-class FolderManager {
-    +tempFolderPath: string?
-    +CheckTempFolder(): void
-    +ProcessFolders(button: string): void
-    +ChooseNewProject(): List<string>
-    +ChooseValidation(): List<string>
-}
-
-class ZipManager {
-    +zipPath: string?
-    +tempFolderPath: string?
-    +LoadZip(path: string): void
-    +UpdateZipFromTempFolder(): void
-}
-
-class JsonManipulator {
-    +ExportJson(user: User, annotations: List<Dictionary<...>>, validated: List<string>): string
-    +UnpackJson(json: string): List<JArray>?
-}
-
-class MainWindow {
-    -project: Project
-    -stateManager: StateManager
-    -activeAnotButton: ToggleButton
-    +MainWindow()
-    -HandleStateChanged(sender: object, newState: AppState): void
-    -SaveCanvasIntoAnot(): void
-    -SwitchActiveAnot(id: string): void
-}
+class FileManager
+class FolderManager
+class ZipManager
+class JsonManipulator
+class MainWindow
 
 Project "1" *-- "1" FolderUtilityManager
 Project "1" *-- "1" User
 Project "1" *-- "*" Anotace
-Project "1" --> "1" Anotace : activeAnotace
+Project --> Anotace : activeAnotace
 Anotace "1" *-- "*" PointMarker
 Anotace "1" *-- "*" LineConnection
-LineConnection "1" --> "2" PointMarker
-FolderUtilityManager "1" *-- "1" ZipManager
-FolderUtilityManager "1" *-- "1" FileManager
-FolderUtilityManager "1" *-- "1" FolderManager
+LineConnection --> PointMarker
+FolderUtilityManager *-- ZipManager
+FolderUtilityManager *-- FileManager
+FolderUtilityManager *-- FolderManager
 Project ..> JsonManipulator : uses
-MainWindow "1" --> "1" Project
-MainWindow "1" --> "1" StateManager
+MainWindow --> Project
+MainWindow --> StateManager
 StateManager --> AppState
 Anotace --> AnotaceType
 ```
