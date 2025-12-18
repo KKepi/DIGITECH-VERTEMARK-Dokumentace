@@ -181,7 +181,7 @@ VerteMark/
 
 ## 4. UML diagramy
 
-### Diagram tříd (PlantUML)
+### Diagram tříd
 
 ```mermaid
 classDiagram
@@ -281,7 +281,7 @@ StateManager --> AppState
 Anotace --> AnotaceType
 ```
 
-### Sekvenční diagram - Workflow anotace (Mermaid)
+### Sekvenční diagram - Workflow anotace
 
 ```mermaid
 sequenceDiagram
@@ -317,7 +317,7 @@ sequenceDiagram
     FolderUtilityManager->>ZipManager: UpdateZipFromTempFolder()
 ```
 
-### Diagram komponent (Mermaid)
+### Diagram komponent
 
 ```mermaid
 graph TB
